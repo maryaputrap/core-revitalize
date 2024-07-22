@@ -11,7 +11,12 @@ class Container extends Model
     use SoftDeletes;
     use HasFactory;
 
-    protected $fillable = ['name', 'latitude', 'longitude'];
+    protected $fillable = [
+        'code',
+        'name',
+        'latitude',
+        'longitude',
+    ];
 
     public function hardwares()
     {

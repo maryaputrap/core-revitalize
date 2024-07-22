@@ -9,6 +9,12 @@ class Core extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'color',
+        'port_from_id',
+        'port_to_id',
+        'tube_id'
+    ];
     /**
      * Get the parent core that owns the port.
      */

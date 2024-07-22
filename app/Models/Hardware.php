@@ -12,7 +12,12 @@ class Hardware extends Model
     use HasFactory;
 
     protected $table = 'hardwares';
-    protected $fillable = ['code', 'name', 'port_total'];
+    protected $fillable = [
+        'code',
+        'name',
+        'port_total',
+        'container_id',
+    ];
 
     public function container()
     {
