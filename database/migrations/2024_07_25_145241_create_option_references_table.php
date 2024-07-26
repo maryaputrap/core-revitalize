@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('containers', function (Blueprint $table) {
+        Schema::create('option_references', function (Blueprint $table) {
             $table->id();
+            $table->string('type');
             $table->string('code');
-            $table->string('name');
-            $table->double('latitude', 15, 8);
-            $table->double('longitude', 15, 8);
+            $table->string('content');
+            $table->jsonb('additional_data')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('containers');
+        Schema::dropIfExists('option_references');
     }
 };
