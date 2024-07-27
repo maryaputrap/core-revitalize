@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ContainerRequest;
+use App\Http\Requests\ClusterRequest;
 use Illuminate\Http\Request;
-use App\Models\Container;
+use App\Models\Cluster;
 use Inertia\Inertia;
 
-class ContainerController extends Controller
+class ClusterController extends Controller
 {
     public function __construct()
     {
@@ -19,9 +19,9 @@ class ContainerController extends Controller
      */
     public function index()
     {
-        $data = Container::all();
+        $data = Cluster::all();
 
-        return Inertia::render('Container/index', [
+        return Inertia::render('Cluster/index', [
             'datas' => $data
         ]);
     }
@@ -31,22 +31,22 @@ class ContainerController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Container/create');
+        return Inertia::render('Cluster/create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ContainerRequest $request)
+    public function store(ClusterRequest $request)
     {
-        $container = Container::create([
-            'code' => $request->code,
+        $cluster = Cluster::create([
             'name' => $request->name,
+            'address' => $request->address,
             'latitude' => floatval($request->latitude),
             'longitude' => floatval($request->longitude)
         ]);
 
-        return redirect()->route('container.index')->with('success', 'Container created successfully.');
+        return redirect()->route('cluster.index')->with('success', 'Cluster created successfully.');
     }
 
     /**
@@ -62,11 +62,11 @@ class ContainerController extends Controller
      */
     public function edit(string $id)
     {
-        $data = Container::findOrFail($id);
+        $data = Cluster::findOrFail($id);
         $data->latitude = strval($data->latitude);
         $data->longitude = strval($data->longitude);
 
-        return Inertia::render('Container/edit', [
+        return Inertia::render('Cluster/edit', [
             'data' => $data
         ]);
     }
@@ -74,17 +74,17 @@ class ContainerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ContainerRequest $request, string $id)
+    public function update(ClusterRequest $request, string $id)
     {
-        $container = Container::findOrFail($id);
-        $container->update([
-            'code' => $request->code,
+        $cluster = Cluster::findOrFail($id);
+        $cluster->update([
             'name' => $request->name,
+            'address' => $request->address,
             'latitude' => floatval($request->latitude),
             'longitude' => floatval($request->longitude)
         ]);
 
-        return redirect()->route('container.index')->with('success', 'Container updated successfully.');
+        return redirect()->route('cluster.index')->with('success', 'Cluster updated successfully.');
     }
 
     /**
@@ -92,9 +92,9 @@ class ContainerController extends Controller
      */
     public function destroy(string $id)
     {
-        $container = Container::findOrFail($id);
-        $container->delete();
+        $cluster = Cluster::findOrFail($id);
+        $cluster->delete();
 
-        return redirect()->route('container.index')->with('success', 'Container deleted successfully.');
+        return redirect()->route('cluster.index')->with('success', 'Cluster deleted successfully.');
     }
 }

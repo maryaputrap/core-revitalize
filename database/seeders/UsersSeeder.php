@@ -17,7 +17,7 @@ class UsersSeeder extends Seeder
     {
         for ($i = 0; $i < 10; $i++) {
             DB::table('users')->insert([
-                'username' => 'user'.$i,
+                'name' => 'user'.$i,
                 'email' => 'user'.$i.'@example.com',
                 'email_verified_at' => now(),
                 'password' => Hash::make('password'),

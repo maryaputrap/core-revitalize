@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('connection', function (Blueprint $table) {
+        Schema::create('connections', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Port::class, 'from_port_id')->cascadeOnDelete();
             $table->foreignIdFor(Port::class, 'to_port_id')->cascadeOnDelete();

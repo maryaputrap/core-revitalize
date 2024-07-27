@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ContainerRequest;
 use Illuminate\Http\Request;
-use App\Models\Container;
+use App\Models\Connection;
 use Inertia\Inertia;
 
-class ContainerController extends Controller
+class ConnectionController extends Controller
 {
     public function __construct()
     {
@@ -19,9 +19,9 @@ class ContainerController extends Controller
      */
     public function index()
     {
-        $data = Container::all();
+        $data = Connection::all();
 
-        return Inertia::render('Container/index', [
+        return Inertia::render('Connection/index', [
             'datas' => $data
         ]);
     }
@@ -31,22 +31,22 @@ class ContainerController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Container/create');
+        return Inertia::render('Connection/create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ContainerRequest $request)
+    public function store(ConnectionRequest $request)
     {
-        $container = Container::create([
+        $connection = Connection::create([
             'code' => $request->code,
             'name' => $request->name,
             'latitude' => floatval($request->latitude),
             'longitude' => floatval($request->longitude)
         ]);
 
-        return redirect()->route('container.index')->with('success', 'Container created successfully.');
+        return redirect()->route('connection.index')->with('success', 'Connection created successfully.');
     }
 
     /**
@@ -62,11 +62,11 @@ class ContainerController extends Controller
      */
     public function edit(string $id)
     {
-        $data = Container::findOrFail($id);
+        $data = Connection::findOrFail($id);
         $data->latitude = strval($data->latitude);
         $data->longitude = strval($data->longitude);
 
-        return Inertia::render('Container/edit', [
+        return Inertia::render('Connection/edit', [
             'data' => $data
         ]);
     }
@@ -74,17 +74,17 @@ class ContainerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ContainerRequest $request, string $id)
+    public function update(ConnectionRequest $request, string $id)
     {
-        $container = Container::findOrFail($id);
-        $container->update([
+        $connection = Conenction::findOrFail($id);
+        $conenction->update([
             'code' => $request->code,
             'name' => $request->name,
             'latitude' => floatval($request->latitude),
             'longitude' => floatval($request->longitude)
         ]);
 
-        return redirect()->route('container.index')->with('success', 'Container updated successfully.');
+        return redirect()->route('conenction.index')->with('success', 'Conenction updated successfully.');
     }
 
     /**
@@ -92,9 +92,9 @@ class ContainerController extends Controller
      */
     public function destroy(string $id)
     {
-        $container = Container::findOrFail($id);
-        $container->delete();
+        $connection = Connection::findOrFail($id);
+        $connection->delete();
 
-        return redirect()->route('container.index')->with('success', 'Container deleted successfully.');
+        return redirect()->route('connection.index')->with('success', 'Connection deleted successfully.');
     }
 }

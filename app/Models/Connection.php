@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cluster extends Model
+class Connection extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'address',
-        'latitude',
-        'longitude',
+        'from_port_id',
+        'to_port_id',
+        'tube',
+        'tube_color',
+        'cable',
     ];
 }
