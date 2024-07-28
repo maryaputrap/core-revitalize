@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-            $table->foreignId('user_level_id')->constrained('user_levels')->onDelete('cascade');
         });
     }
 

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('endpoints', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(OptionReference::class, 'type')->nullable()->onDeleteNull();
+            $table->foreignIdFor(OptionReference::class, 'type_id')->nullable()->onDeleteNull();
             $table->foreignIdFor(Container::class)->nullable()->onDeleteNull();
             $table->string('code');
             $table->string('name');

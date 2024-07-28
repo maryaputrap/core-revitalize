@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\OptionReferenceType;
 use Illuminate\Database\Eloquent\Model;
 
 class OptionReference extends Model
@@ -15,6 +15,7 @@ class OptionReference extends Model
     ];
 
     protected $casts = [
+        'type' => OptionReferenceType::class,
         'additional_data' => 'array',
     ];
 }

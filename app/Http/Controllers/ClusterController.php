@@ -21,7 +21,7 @@ class ClusterController extends Controller
     {
         $data = Cluster::all();
 
-        return Inertia::render('Cluster/index', [
+        return Inertia::render('Cluster/Index', [
             'datas' => $data
         ]);
     }
@@ -31,7 +31,7 @@ class ClusterController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Cluster/create');
+        return Inertia::render('Cluster/Create');
     }
 
     /**
@@ -66,7 +66,7 @@ class ClusterController extends Controller
         $data->latitude = strval($data->latitude);
         $data->longitude = strval($data->longitude);
 
-        return Inertia::render('Cluster/edit', [
+        return Inertia::render('Cluster/Edit', [
             'data' => $data
         ]);
     }

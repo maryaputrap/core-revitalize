@@ -39,8 +39,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::prefix('dashboard')->group(function () {
-        Route::resource('container', ContainerController::class);
         Route::resource('cluster', ClusterController::class);
+        Route::resource('container', ContainerController::class);
         Route::resource('connection', ConnectionController::class);
     });
 

@@ -5,6 +5,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 import NavLink from '@/Components/NavLink.vue';
+import DashboardLayout from "@/Layouts/DashboardLayout.vue";
 
 interface cluster {
     id: number;
@@ -34,12 +35,7 @@ const handleDelete = (id: number) => {
 <template>
     <Head title="Cluster" />
 
-    <AuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Cluster</h2>
-        </template>
-
-
+    <DashboardLayout>
         <div>
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-end mb-6">
@@ -99,7 +95,7 @@ const handleDelete = (id: number) => {
                 </table>
             </div>
         </div>
-    </AuthenticatedLayout>
+    </DashboardLayout>
 </template>
 
 

@@ -16,5 +16,12 @@
             "ziggy-js": ["./vendor/tightenco/ziggy"]
         }
     },
-    "include": ["resources/js/**/*.ts", "resources/js/**/*.d.ts", "resources/js/**/*.vue"]
+    "include": [
+        "resources/js/**/*.ts",
+        "resources/js/**/*.d.ts",
+        "resources/js/**/*.vue",
+        "../../.cache/JetBrains/PhpStorm2024.1/javascript/typings/node/22.0.0/node_modules/@types/node/globals.d.ts",
+        "../../.cache/JetBrains/PhpStorm2024.1/javascript/typings/node/22.0.0/node_modules/@types/node/globals.d.ts",
+        "../../.cache/JetBrains/PhpStorm2024.1/javascript/typings/node/22.0.0/node_modules/@types/node/globals.d.ts"
+    ]
 }
