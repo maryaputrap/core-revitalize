@@ -9,4 +9,15 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
+
+    protected string $viewPrefix = '';
+
+    protected function viewComponent(string $component)
+    {
+        $this->viewPrefix = !empty($this->viewPrefix)
+            ? $this->viewPrefix . '/'
+            : '';
+
+        return $this->viewPrefix . $component;
+    }
 }

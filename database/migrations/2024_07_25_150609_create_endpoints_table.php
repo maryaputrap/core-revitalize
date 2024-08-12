@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Container;
-use App\Models\OptionReference;
+use App\Models\OptionReference\OptionReference;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

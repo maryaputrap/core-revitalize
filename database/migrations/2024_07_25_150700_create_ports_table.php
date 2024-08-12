@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Endpoint::class)->onDeleteNull();
             $table->string('name');
-            $table->boolean('is_connected');
+            $table->boolean('is_connected')->default(false);
             $table->unsignedSmallInteger('splitter')->default(1);
             $table->timestamps();
         });

@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Enums\OptionReferenceType;
-use App\Models\OptionReference;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Enums\OptionReference\OptionReferenceType;
+use App\Models\OptionReference\OptionReference;
 use Illuminate\Database\Seeder;
 
 class OptionReferenceSeeder extends Seeder

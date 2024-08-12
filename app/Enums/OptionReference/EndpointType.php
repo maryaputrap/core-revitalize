@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Enums\OptionReference;
+
+use ArchTech\Enums\From;
+use ArchTech\Enums\Names;
+use ArchTech\Enums\Options;
+use ArchTech\Enums\Values;
+
+/**
+ * @method static ENDPOINT()
+ */
+enum EndpointType: string
+{
+    use Names;
+    use Values;
+    use Options;
+    use From;
+
+    case ODF = 'odf';
+    case OLT = 'olt';
+    case BEST_TRAY = 'best_tray';
+}

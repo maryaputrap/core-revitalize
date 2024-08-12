@@ -16,9 +16,9 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Port::class, 'from_port_id')->cascadeOnDelete();
             $table->foreignIdFor(Port::class, 'to_port_id')->cascadeOnDelete();
-            $table->char('tube')->nullable();
-            $table->string('tube_color')->nullable();
-            $table->string('cable')->nullable();
+            $table->char('tube')->nullable(); // example: A, B, C, D, E,...
+            $table->string('tube_color')->nullable(); // example: red, blue, green, yellow,...
+            $table->string('cable')->nullable(); // example: MGB 24C/8T/6C
             $table->timestamps();
         });
     }
