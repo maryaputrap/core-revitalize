@@ -19,7 +19,8 @@ class GeneratePorts extends BaseAction
     /**
      * @return BaseAction
      */
-    #[Override] public function rules(): BaseAction
+    #[Override]
+    public function rules(): BaseAction
     {
         return $this;
     }
@@ -27,9 +28,15 @@ class GeneratePorts extends BaseAction
     /**
      * @return Endpoint
      */
-    #[Override] public function handle(): Endpoint
+    #[Override]
+    public function handle(): Endpoint
     {
         if ($this->regenerate) {
+            foreach ($this->endpoint->ports as $port) {
+                $port->fromConnections()->delete();
+                $port->toConnections()->delete();
+            }
+
             $this->endpoint->ports()->delete();
         }
 

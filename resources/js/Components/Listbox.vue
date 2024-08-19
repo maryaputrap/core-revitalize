@@ -36,6 +36,11 @@ const props = defineProps({
     withBorder: {
         type: Boolean as PropType<boolean>,
         required: false,
+        default: true,
+    },
+    withMinHeight: {
+        type: Boolean as PropType<boolean>,
+        required: false,
         default: false,
     },
     multiple: {
@@ -45,11 +50,18 @@ const props = defineProps({
     },
 })
 
-const { items, placeholder } = toRefs(props)
+const { items, placeholder, multiple } = toRefs(props)
 const selectedItem: Ref<Item | Item[] | null> = ref(null)
 
 // Prevent Redundant Unshift: Ensure that placeholder insertion is done only once, avoiding repetitive insertions.
-let placeholderAdded = false
+const placeholderAdded = ref(false)
+
+const loadPlaceholder = () => {
+    if (!placeholderAdded.value && placeholder?.value && !multiple.value) {
+        items.value.unshift({ label: placeholder.value, value: null })
+        placeholderAdded.value = true
+    }
+}
 
 const loadSelectedItem = () => {
     const modelValueArray = Array.isArray(model.value) ? model.value : (model.value ? [model.value] : [])
@@ -61,17 +73,16 @@ const loadSelectedItem = () => {
             selectedItem.value = items.value.find(item => item.value === model.value) || null
         }
     } else {
-        if (!placeholderAdded && placeholder?.value) {
-            items.value.unshift({ label: placeholder.value, value: null })
-            placeholderAdded = true
-        }
-
         const firstItem = items.value[0] || null
         selectedItem.value = props.multiple ? (firstItem ? [firstItem] : []) : firstItem
     }
 }
 
 onMounted(() => {
+    if (items.value.length > 0) {
+        loadPlaceholder()
+    }
+
     loadSelectedItem()
 })
 
@@ -94,6 +105,17 @@ watch(model, (newValue, oldValue) => {
         loadSelectedItem()
     }
 })
+
+watch(items, (newValue, oldValue) => {
+    if (JSON.stringify(toRaw(newValue)) !== JSON.stringify(toRaw(oldValue))) {
+        loadPlaceholder()
+        loadSelectedItem()
+    }
+})
+
+defineExpose({
+    loadSelectedItem,
+})
 </script>
 
 
@@ -105,7 +127,8 @@ watch(model, (newValue, oldValue) => {
                     :class="[
                         withBorder ? 'border border-gray-100' : '',
                         disabled ? 'bg-gray-100 cursor-not-allowed' : 'bg-white',
-                        'relative w-full cursor-default rounded-xl py-4 pr-10 pl-5 text-left font-normal tracking-wide text-grayscale-subheading focus:outline-none focus-visible:border-brand-secondary focus-visible:ring-offset-brand-secondary-light focus-visible:ring-1 focus-visible:ring-white/75 focus-visible:ring-offset-1'
+                        withMinHeight ? 'min-h-10 ' : '',
+                        'shadow-sm relative w-full cursor-default rounded-md py-2 pr-10 pl-5 text-left font-normal tracking-wide text-grayscale-subheading focus:outline-none focus-visible:border-secondary focus-visible:ring-offset-secondary-light focus-visible:ring-1 focus-visible:ring-white/75 focus-visible:ring-offset-1'
                     ]"
                 >
                     <span class="block truncate">
@@ -129,7 +152,7 @@ watch(model, (newValue, oldValue) => {
                     leave-to-class="opacity-0"
                 >
                     <ListboxOptions
-                        class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-xl bg-white divide-y text-base shadow-md focus:outline-none sm:text-sm"
+                        class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white text-base shadow-md divide-y focus:outline-none sm:text-sm"
                     >
                         <ListboxOption
                             v-slot="{ active, selected }"
@@ -140,7 +163,7 @@ watch(model, (newValue, oldValue) => {
                         >
                             <li
                                 :class="[
-                                  active ? 'bg-gray-100 text-brand-secondary-light' : 'text-grayscale-subheading',
+                                  active ? 'bg-gray-100 text-secondary-light' : 'text-grayscale-subheading',
                                   'relative cursor-default select-none py-3 pl-10 pr-4',
                                 ]"
                             >
@@ -153,7 +176,7 @@ watch(model, (newValue, oldValue) => {
                                 </span>
                                 <span
                                     v-if="selected"
-                                    class="absolute inset-y-0 left-0 flex items-center pl-3 text-brand-secondary-light"
+                                    class="absolute inset-y-0 left-0 flex items-center pl-3 text-secondary-light"
                                 >
                                   <CheckIcon class="h-5 w-5" aria-hidden="true"/>
                                 </span>

@@ -1,6 +1,7 @@
 import {
     HomeIcon,
-    CubeTransparentIcon
+    CubeTransparentIcon,
+    CpuChipIcon,
 } from "@heroicons/vue/24/outline";
 
 const dashboard = {
@@ -17,7 +18,15 @@ const cluster = {
     current: route().current('cluster.*'),
 }
 
+const endpoint = {
+    name: 'Endpoint',
+    href: route('endpoint.index'),
+    icon: CpuChipIcon,
+    current: route().current('endpoint.*'),
+}
+
 export const navigations = [
     dashboard,
     cluster,
+    endpoint
 ]

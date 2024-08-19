@@ -6,6 +6,7 @@ use App\Actions\Endpoint\GeneratePorts;
 use App\Models\Container;
 use App\Models\Endpoint;
 use App\Models\OptionReference\EndpointType;
+use Illuminate\Support\Facades\DB;
 
 class EndpointService
 {
@@ -43,6 +44,17 @@ class EndpointService
         }
 
         return $endpoint->refresh();
+    }
+
+    public function delete(Endpoint $endpoint): void
+    {
+        foreach ($endpoint->ports as $port) {
+            $port->fromConnections()->delete();
+            $port->toConnections()->delete();
+        }
+
+        $endpoint->ports()->delete();
+        $endpoint->delete();
     }
 
     /**

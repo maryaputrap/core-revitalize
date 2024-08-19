@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\EndpointController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ContainerController;
 use App\Http\Controllers\ClusterController;
 use App\Http\Controllers\ConnectionController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -41,9 +41,11 @@ Route::middleware('auth')->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::resource('cluster', ClusterController::class);
         Route::resource('container', ContainerController::class);
-        Route::resource('connection', ConnectionController::class);
-    });
+        Route::resource('endpoint', EndpointController::class);
 
+        Route::post('endpoint/{endpoint}/connection/connect', [ConnectionController::class, 'connect'])->name('connection.connect');
+        Route::post('endpoint/{endpoint}/connection/{port}', [ConnectionController::class, 'disconnect'])->name('connection.disconnect');
+    });
 });
 
 require __DIR__ . '/auth.php';

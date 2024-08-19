@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\OptionReference\EndpointType;
 use App\Models\OptionReference\OptionReference;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Support\Collection;
 use Veelasky\LaravelHashId\Eloquent\HashableId;
 
 /**
@@ -16,6 +18,7 @@ use Veelasky\LaravelHashId\Eloquent\HashableId;
  * @property mixed $code
  * @property mixed $name
  * @property mixed $port_total
+ * @property Collection<Port> $ports
  */
 class Endpoint extends Model
 {
@@ -44,7 +47,12 @@ class Endpoint extends Model
 
     public function type(): belongsTo
     {
-        return $this->belongsTo(OptionReference::class, 'type_id');
+        return $this->belongsTo(EndpointType::class, 'type_id');
+    }
+
+    public function container(): belongsTo
+    {
+        return $this->belongsTo(Container::class);
     }
 
     /**

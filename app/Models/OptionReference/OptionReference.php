@@ -10,6 +10,8 @@ class OptionReference extends Model
 {
     use HashableId;
 
+    protected $table = 'option_references';
+
     protected $fillable = [
         'type',
         'code',

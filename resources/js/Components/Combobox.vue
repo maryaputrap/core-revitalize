@@ -40,15 +40,21 @@ const props = defineProps({
 const { items, placeholder, disabled } = toRefs(props)
 const selectedItem: Ref<Item|null> = ref(null)
 const query = ref('')
+const placeholderAdded = ref(false)
+
+const loadPlaceholder = () => {
+    if (!placeholderAdded.value && placeholder?.value) {
+        items.value.unshift({ label: placeholder.value, value: null })
+        placeholderAdded.value = true
+    }
+}
 
 const loadSelectedItem = () => {
-    if (model.value) {
-        selectedItem.value = items?.value?.find(item => item.value === model.value) || null
-    } else {
-        if (placeholder?.value) {
-            items.value.unshift({label: placeholder.value, value: null})
-        }
+    const modelValueArray = Array.isArray(model.value) ? model.value : (model.value ? [model.value] : [])
 
+    if (modelValueArray.length > 0) {
+        selectedItem.value = items.value.find(item => item.value === model.value) || null
+    } else {
         selectedItem.value = items.value[0] || null
     }
 }
@@ -65,15 +71,31 @@ const filteredItem = computed(() =>
 )
 
 onMounted(() => {
+    if (items.value.length > 0) {
+        loadPlaceholder()
+    }
+
     loadSelectedItem()
 })
 
-watch(selectedItem, () => {
-    model.value = selectedItem.value?.value || null
+watch(items, (newValue, oldValue) => {
+    if (newValue !== oldValue) {
+        loadPlaceholder()
+        loadSelectedItem()
+    }
 })
 
-watch(model, () => {
-    loadSelectedItem()
+watch(selectedItem, (newValue) => {
+    const newModelValue = (newValue as Item | null)?.value || null
+    if (newModelValue !== model.value) {
+        model.value = newModelValue
+    }
+}, { deep: true })
+
+watch(model, (newValue, oldValue) => {
+    if (newValue !== oldValue) {
+        loadSelectedItem()
+    }
 })
 </script>
 
@@ -87,10 +109,10 @@ watch(model, () => {
         >
             <div class="relative mt-1">
                 <div
-                    class="relative w-full cursor-default overflow-hidden rounded-xl bg-white text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-secondary-light sm:text-sm"
+                    class="border border-gray-300 focus:border-primary focus:ring-primary shadow-sm relative w-full cursor-default overflow-hidden rounded-md bg-white text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-secondary-light"
                 >
                     <ComboboxInput
-                        class="w-full border-none py-4 pr-10 pl-5 font-normal tracking-wide text-grayscale-subheading  focus:ring-0"
+                        class="w-full border-none py-2 pr-10 pl-5 font-normal tracking-wide text-grayscale-subheading focus:ring-0"
                         :displayValue="(item: Item) => item?.label"
                         @change="query = $event.target.value"
                     />
@@ -110,7 +132,7 @@ watch(model, () => {
                     @after-leave="query = ''"
                 >
                     <ComboboxOptions
-                        class="absolute mt-1 max-h-60 w-full overflow-auto rounded-xl bg-white py-1 text-base shadow-md ring-1 ring-black/5 focus:outline-none sm:text-sm z-10"
+                        class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-md ring-1 ring-black/5 focus:outline-none sm:text-sm z-10"
                     >
                         <div
                             v-if="filteredItem.length === 0 && query !== ''"
@@ -129,7 +151,7 @@ watch(model, () => {
                             <li
                                 class="relative cursor-default select-none py-2 pl-10 pr-4"
                                 :class="{
-                                      'bg-brand-secondary text-white': active,
+                                      'bg-secondary text-white': active,
                                       'text-gray-900': !active,
                                     }"
                             >

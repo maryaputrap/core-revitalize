@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EndpointRequest;
-use App\Models\Cluster;
-use App\Models\Container;
+use App\Models\Connection;
 use App\Models\Endpoint;
+use App\Models\Port;
 use App\Services\EndpointService;
 use Exception;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class EndpointController extends Controller
 {
@@ -19,78 +22,88 @@ class EndpointController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(): Response
     {
         $endpoints = Endpoint::query()
-            ->with('containers')
-            ->get();
+            ->with([
+                'container.cluster',
+            ])
+            ->paginate();
 
         return Inertia::render($this->viewComponent('Index'), [
             'endpoints' => $endpoints
         ]);
     }
 
-    public function create(Cluster $cluster)
+    public function create(): Response
     {
-        /** @var Container $containers */
-        $containers = $cluster->containers->only('id', 'name');
-
-        return Inertia::render($this->viewComponent('Form'), [
-            'containers' => $containers
-        ]);
+        return Inertia::render($this->viewComponent('Form'));
     }
 
-    public function store(Cluster $cluster, EndpointRequest $request)
+    public function store(EndpointRequest $request): RedirectResponse
     {
+        DB::beginTransaction();
+
         try {
+
             $sv = new EndpointService();
             $sv->create($request->validated());
+            DB::commit();
         } catch (Exception $e) {
+            DB::rollBack();
             return redirect()->back()->withInput()->withErrors($e->getMessage());
         }
 
-        return redirect()->route('endpoints.index');
+        return redirect()->route('endpoint.index');
     }
 
-    public function show(Cluster $cluster, Endpoint $endpoint)
+    public function show(Endpoint $endpoint): Response
     {
-        $endpoint->load('containers', 'ports');
+        $endpoint->load('container.cluster', 'ports.toPorts.endpoint');
 
         return Inertia::render($this->viewComponent('Show'), [
             'endpoint' => $endpoint
         ]);
     }
 
-    public function edit(Cluster $cluster, Endpoint $endpoint)
+    public function edit(Endpoint $endpoint): Response
     {
-        $endpoint->load('containers');
+        $endpoint->load('container.cluster');
 
         return Inertia::render($this->viewComponent('Form'), [
             'endpoint' => $endpoint
         ]);
     }
 
-    public function update(Cluster $cluster, Endpoint $endpoint, EndpointRequest $request)
+    public function update(Endpoint $endpoint, EndpointRequest $request): RedirectResponse
     {
+        DB::beginTransaction();
+
         try {
             $sv = new EndpointService();
             $sv->update($endpoint, $request->validated());
+            DB::commit();
         } catch (Exception $e) {
+            DB::rollBack();
             return redirect()->back()->withInput()->withErrors($e->getMessage());
         }
 
-        return redirect()->route('endpoints.index');
+        return redirect()->route('endpoint.index');
     }
 
-    public function destroy(Cluster $cluster, Endpoint $endpoint)
+    public function destroy(Endpoint $endpoint): RedirectResponse
     {
+        DB::beginTransaction();
+
         try {
-            $endpoint->ports()->delete();
-            $endpoint->delete();
+            $sv = new EndpointService();
+            $sv->delete($endpoint);
+            DB::commit();
         } catch (Exception $e) {
+            DB::rollBack();
             return redirect()->back()->withErrors($e->getMessage());
         }
 
-        return redirect()->route('endpoints.index');
+        return redirect()->route('endpoint.index');
     }
 }

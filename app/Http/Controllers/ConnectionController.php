@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ConnectionRequest;
 use App\Models\Endpoint;
+use App\Models\Port;
 use App\Services\ConnectionService;
 use Exception;
 use App\Models\Connection;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Veelasky\LaravelHashId\Rules\ExistsByHash;
 
 class ConnectionController extends Controller
 {
@@ -46,13 +50,40 @@ class ConnectionController extends Controller
         return redirect()->route('connection.index')->with('success', 'Connection created successfully.');
     }
 
+    public function connect(Endpoint $endpoint, Request $request): RedirectResponse
+    {
+        $request->validate([
+            'from_port_id' => ['required', new ExistsByHash(Port::class)],
+            'to_port_id' => ['required', new ExistsByHash(Port::class)],
+        ]);
+
+        $fromPort = Port::byHash($request->from_port_id);
+        $toPort = Port::byHash($request->to_port_id);
+
+        $fromPort->toPorts()->sync($toPort);
+
+        $fromPort->is_connected = true;
+        $fromPort->save();
+
+        $toPort->is_connected = true;
+        $toPort->save();
+
+        return redirect()->route('endpoint.show', $endpoint->hash)->with('success', 'Connection created successfully.');
+    }
+
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Endpoint $endpoint, Connection $connection)
+    public function disconnect(Endpoint $endpoint, Port $port): RedirectResponse
     {
-        $connection->delete();
+        foreach ($port->toPorts as $toPort) {
+            $toPort->is_connected = false;
+            $toPort->save();
+        }
 
-        return redirect()->route('connection.index')->with('success', 'Connection deleted successfully.');
+        $port->toPorts()->detach();
+        $port->is_connected = false;
+
+        return redirect()->route('endpoint.show', $endpoint->hash)->with('success', 'Connection deleted successfully.');
     }
 }
