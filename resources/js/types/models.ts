@@ -32,6 +32,7 @@ export interface Cluster {
     address: string
     latitude: number
     longitude: number
+    deleted_at?: string|null
 }
 
 export interface Container {

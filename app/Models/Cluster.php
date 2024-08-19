@@ -12,7 +12,7 @@ use Veelasky\LaravelHashId\Eloquent\HashableId;
  */
 class Cluster extends Model
 {
-//    use HasFactory;
+    //    use HasFactory;
     use HashableId;
 
     protected $fillable = [
@@ -28,6 +28,11 @@ class Cluster extends Model
 
     protected $hidden = [
         'id',
+    ];
+
+    protected $casts = [
+        'latitude' => 'double',
+        'longitude' => 'double'
     ];
 
     public function containers(): HasMany

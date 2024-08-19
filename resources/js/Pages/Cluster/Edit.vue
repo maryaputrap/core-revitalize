@@ -1,19 +1,11 @@
 <script setup lang="ts">
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import InputError from '@/Components/InputError.vue';
-
-interface Cluster {
-    id: number;
-    name: string;
-    address: string;
-    latitude: string;
-    longitude: string;
-    deleted_at: string;
-}
+import type { Cluster } from '@/types/models';
 
 const props = defineProps<{
     data: Cluster;
@@ -23,13 +15,13 @@ const props = defineProps<{
 
 const inputForm = useForm({
     name: props.data.name,
-    code: props.data.address,
+    address: props.data.address,
     latitude: props.data.latitude,
     longitude: props.data.longitude,
 });
 
 const handleSubmit = () => {
-    inputForm.put(route('cluster.update', props.data.id));
+    inputForm.put(route('cluster.update', props.data.hash));
 }
 
 </script>
@@ -37,20 +29,17 @@ const handleSubmit = () => {
 <template>
     <Head title="Edit Cluster" />
 
-    <AuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Edit Cluster</h2>
-        </template>
-
+    <DashboardLayout>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Edit Cluster</h2>
 
         <div>
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 <form @submit.prevent="handleSubmit" action="">
                     <div class="w-1/2">
                         <div class="mb-2">
-                            <InputLabel value="Code" />
-                            <TextInput v-model="inputForm.code" />
-                            <InputError :message="inputForm.errors.code" />
+                            <InputLabel value="Address" />
+                            <TextInput v-model="inputForm.address" />
+                            <InputError :message="inputForm.errors.address" />
                         </div>
                     </div>
                     <div class="w-1/2">
@@ -78,7 +67,7 @@ const handleSubmit = () => {
                 </form>
             </div>
         </div>
-    </AuthenticatedLayout>
+    </DashboardLayout>
 </template>
 
 

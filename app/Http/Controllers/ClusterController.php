@@ -60,23 +60,18 @@ class ClusterController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Cluster $cluster)
     {
-        $data = Cluster::findOrFail($id);
-        $data->latitude = strval($data->latitude);
-        $data->longitude = strval($data->longitude);
-
         return Inertia::render('Cluster/Edit', [
-            'data' => $data
+            'data' => $cluster
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(ClusterRequest $request, string $id)
+    public function update(ClusterRequest $request, Cluster $cluster)
     {
-        $cluster = Cluster::findOrFail($id);
         $cluster->update([
             'name' => $request->name,
             'address' => $request->address,
@@ -90,9 +85,8 @@ class ClusterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Cluster $cluster)
     {
-        $cluster = Cluster::findOrFail($id);
         $cluster->delete();
 
         return redirect()->route('cluster.index')->with('success', 'Cluster deleted successfully.');

@@ -17,14 +17,14 @@ class UsersSeeder extends Seeder
     {
         for ($i = 0; $i < 10; $i++) {
             DB::table('users')->insert([
-                'name' => 'user'.$i,
-                'email' => 'user'.$i.'@example.com',
+                'name' => 'user' . $i,
+                'email' => 'user' . $i . '@example.com',
                 'email_verified_at' => now(),
                 'password' => Hash::make('password'),
                 'remember_token' => Str::random(10),
                 'created_at' => now(),
                 'updated_at' => now(),
-                'user_level_id' => 3,
+                // 'user_level_id' => 3,
             ]);
         }
     }

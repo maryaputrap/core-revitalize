@@ -16,6 +16,7 @@ class ContainersSeeder extends Seeder
     public function run(): void
     {
         DB::table('containers')->insert([
+            'cluster_id' => 1,
             'code' => "POP",
             'name' => "POP_1BSB10019_Bintan_Gunung Kijang 7247",
             'latitude' => 1.1864000,
@@ -25,6 +26,7 @@ class ContainersSeeder extends Seeder
         ]);
 
         DB::table('containers')->insert([
+            'cluster_id' => 1,
             'code' => "FDT",
             'name' => "FDT_BSBF10009",
             'latitude' => 1.1864010,

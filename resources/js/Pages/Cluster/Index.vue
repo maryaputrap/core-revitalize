@@ -6,25 +6,17 @@ import SecondaryButton from '@/Components/SecondaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 import NavLink from '@/Components/NavLink.vue';
 import DashboardLayout from "@/Layouts/DashboardLayout.vue";
-
-interface cluster {
-    id: number;
-    name: string;
-    address: string;
-    latitude: string;
-    longitude: string;
-    deleted_at: string;
-}
+import type { Cluster } from '@/types/models';
 
 const props = defineProps<{
-    datas: cluster[];
+    datas: Cluster[];
 }>();
 
 const form = useForm(props)
 
-const handleDelete = (id: number) => {
+const handleDelete = (id: string) => {
     if (confirm("Are you sure?")) {
-        form.delete(route('cluster.destroy', {id:id}), {
+        form.delete(route('cluster.destroy', {cluster:id}), {
             preserveScroll: true,
         })
     }
@@ -82,10 +74,10 @@ const handleDelete = (id: number) => {
                                 {{ cluster.longitude }}
                             </td>
                             <td class="border p-4 dark:border-dark-5 flex gap-2">
-                                <NavLink v-if="cluster.deleted_at == null" :href="route('cluster.edit', {'id': cluster.id})" :active="true">
+                                <NavLink v-if="cluster.deleted_at == null" :href="route('cluster.edit', {'cluster': cluster.hash})" :active="true">
                                     <SecondaryButton type="button">Edit</SecondaryButton>
                                 </NavLink>
-                                <DangerButton type="button" v-if="cluster.deleted_at == null" @click="handleDelete(cluster.id)">Delete</DangerButton>
+                                <DangerButton type="button" v-if="cluster.deleted_at == null" @click="handleDelete(cluster.hash)">Delete</DangerButton>
                             </td>
                         </tr>
                         <tr v-if="props.datas.length === 0">
