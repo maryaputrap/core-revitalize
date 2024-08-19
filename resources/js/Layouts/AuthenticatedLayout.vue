@@ -38,11 +38,6 @@ const showingNavigationDropdown = ref(false);
                                     Container
                                 </NavLink>
                             </div>
-                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink :href="route('cluster.index')" :active="route().current('cluster.index')">
-                                    Cluster
-                                </NavLink>
-                            </div>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
