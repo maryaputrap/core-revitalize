@@ -18,6 +18,9 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        $this->call(OptionReferenceSeeder::class);
+        $this->call([
+            OptionReferenceSeeder::class,
+            ClustersSeeder::class,
+        ]);
     }
 }
