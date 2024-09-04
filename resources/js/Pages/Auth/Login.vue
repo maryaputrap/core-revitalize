@@ -6,6 +6,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import LoginButton from '@/Components/LoginButton.vue';
 
 defineProps<{
     canResetPassword?: boolean;
@@ -35,9 +36,15 @@ const submit = () => {
             {{ status }}
         </div>
 
+        <div class="flex flex-col items-center mb-8">
+            <h1 class="text-2xl mt-4 mb-6">Core Revitalize</h1>
+            <h1 class="text-md">Welcome</h1>
+            <h1 class="text-md">Please Sign-in to your account.</h1>
+        </div>
+
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="email" value="Email" />
+                <InputLab  el for="email" value="Email" />
 
                 <TextInput
                     id="email"
@@ -67,14 +74,11 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
 
-            <div class="block mt-4">
+            <div class="flex justify-between my-8">
                 <label class="flex items-center">
                     <Checkbox name="remember" v-model:checked="form.remember" />
                     <span class="ms-2 text-sm text-gray-600">Remember me</span>
                 </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
                 <Link
                     v-if="canResetPassword"
                     :href="route('password.request')"
@@ -82,10 +86,12 @@ const submit = () => {
                 >
                     Forgot your password?
                 </Link>
+            </div>
 
-                <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            <div class="mt-4">
+                <LoginButton class="" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Log in
-                </PrimaryButton>
+                </LoginButton>
             </div>
         </form>
     </GuestLayout>
