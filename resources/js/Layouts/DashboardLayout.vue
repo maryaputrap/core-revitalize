@@ -74,7 +74,7 @@ const allowedNavigation = computed(() => navigations)
                                 </div>
                             </TransitionChild>
                             <!-- Sidebar component, swap this element with another sidebar if you like -->
-                            <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-secondary-dark px-6 pb-4">
+                            <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-[#0a0c29] px-6 pb-4">
                                 <div class="flex h-16 shrink-0 items-center">
                                     <div class="flex h-16 shrink-0 items-center">
                                         <div class="h-8 w-8"></div>
@@ -85,12 +85,12 @@ const allowedNavigation = computed(() => navigations)
                                         <li>
                                             <ul role="list" class="-mx-2 space-y-1">
                                                 <li v-for="item in allowedNavigation" :key="item.name">
-                                                    <a v-if="!item.children" :href="item.href" :class="[item.current ? 'bg-secondary' : 'hover:bg-secondary', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold text-white']">
+                                                    <a v-if="!item.children" :href="item.href" :class="[item.current ? 'bg-[#2c81ff]' : 'hover:bg-[#2c81ff]', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold text-white']">
                                                         <component :is="item.icon" class="h-6 w-6 shrink-0 text-white" aria-hidden="true" />
                                                         {{ item.name }}
                                                     </a>
                                                     <Disclosure as="div" v-else v-slot="{ open }">
-                                                        <DisclosureButton :class="[item.current ? 'bg-secondary' : 'hover:bg-secondary', 'flex items-center w-full text-left rounded-md p-2 gap-x-3 text-sm leading-6 font-semibold text-white']">
+                                                        <DisclosureButton :class="[item.current ? 'bg-[#2c81ff]' : 'hover:bg-[#2c81ff]', 'flex items-center w-full text-left rounded-md p-2 gap-x-3 text-sm leading-6 font-semibold text-white']">
                                                             <component :is="item.icon" class="h-6 w-6 shrink-0 text-white" aria-hidden="true" />
                                                             {{ item.name }}
                                                             <ChevronRightIcon :class="[(open || item.rootCurrent) ? 'rotate-90' : '', 'ml-auto h-5 w-5 shrink-0 text-white']" aria-hidden="true" />
@@ -99,7 +99,7 @@ const allowedNavigation = computed(() => navigations)
                                                             <DisclosurePanel as="ul" class="mt-1 px-2" static>
                                                                 <li v-for="subItem in item.children" :key="subItem.name">
                                                                     <!-- 44px -->
-                                                                    <DisclosureButton as="a" :href="subItem.href" :class="[subItem.current ? 'bg-secondary' : 'hover:bg-secondary', 'block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-white']">{{ subItem.name }}</DisclosureButton>
+                                                                    <DisclosureButton as="a" :href="subItem.href" :class="[subItem.current ? 'bg-[#2c81ff]' : 'hover:bg-[#2c81ff]', 'block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-white']">{{ subItem.name }}</DisclosureButton>
                                                                 </li>
                                                             </DisclosurePanel>
                                                         </div>
@@ -119,7 +119,7 @@ const allowedNavigation = computed(() => navigations)
         <!-- Static sidebar for desktop -->
         <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
             <!-- Sidebar component, swap this element with another sidebar if you like -->
-            <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-secondary-dark px-6 pb-4">
+            <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-[#0a0c29] px-6 pb-4">
                 <div class="flex h-16 shrink-0 items-center">
                     <div class="flex h-16 shrink-0 items-center">
                         <div class="font-medium text-white">Core Revitalize</div>
@@ -130,12 +130,12 @@ const allowedNavigation = computed(() => navigations)
                         <li>
                             <ul role="list" class="-mx-2 space-y-1">
                                 <li v-for="item in allowedNavigation" :key="item.name">
-                                    <a v-if="!item.children" :href="item.href" :class="[item.current ? 'bg-secondary' : 'hover:bg-secondary', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold text-white']">
+                                    <a v-if="!item.children" :href="item.href" :class="[item.current ? 'bg-[#2c81ff]' : 'hover:bg-[#2c81ff]', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold text-white']">
                                         <component :is="item.icon" class="h-6 w-6 shrink-0 text-white" aria-hidden="true" />
                                         {{ item.name }}
                                     </a>
                                     <Disclosure as="div" v-else v-slot="{ open }">
-                                        <DisclosureButton :class="[item.current ? 'bg-secondary' : 'hover:bg-secondary', 'flex items-center w-full text-left rounded-md p-2 gap-x-3 text-sm leading-6 font-semibold text-white']">
+                                        <DisclosureButton :class="[item.current ? 'bg-[#2c81ff]' : 'hover:bg-[#2c81ff]', 'flex items-center w-full text-left rounded-md p-2 gap-x-3 text-sm leading-6 font-semibold text-white']">
                                             <component :is="item.icon" class="h-6 w-6 shrink-0 text-white" aria-hidden="true" />
                                             {{ item.name }}
                                             <ChevronRightIcon :class="[(open || item.rootCurrent) ? 'rotate-90' : '', 'ml-auto h-5 w-5 shrink-0 text-white']" aria-hidden="true" />
@@ -144,7 +144,7 @@ const allowedNavigation = computed(() => navigations)
                                             <DisclosurePanel as="ul" class="mt-1 px-2" static>
                                                 <li v-for="subItem in item.children" :key="subItem.name">
                                                     <!-- 44px -->
-                                                    <DisclosureButton as="a" :href="subItem.href" :class="[subItem.current ? 'bg-secondary' : 'hover:bg-secondary', 'block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-white']">{{ subItem.name }}</DisclosureButton>
+                                                    <DisclosureButton as="a" :href="subItem.href" :class="[subItem.current ? 'bg-[#2c81ff]' : 'hover:bg-[#2c81ff]', 'block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-white']">{{ subItem.name }}</DisclosureButton>
                                                 </li>
                                             </DisclosurePanel>
                                         </div>

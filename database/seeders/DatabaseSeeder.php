@@ -21,6 +21,13 @@ class DatabaseSeeder extends Seeder
         $this->call([
             OptionReferenceSeeder::class,
             ClustersSeeder::class,
+            ContainersSeeder::class,
+            // HardwaresSeeder::class,
+            OptionReferenceSeeder::class,
+            // PortsSeeder::class,
+            // TubesSeeder::class,
+            // UserLevelsSeeder::class,
+            UsersSeeder::class
         ]);
     }
 }
