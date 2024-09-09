@@ -50,11 +50,13 @@ export interface Endpoint {
     id?: string
     hash: string
     type_id: string
+    cluster_id: string
     container_id: string
     code: string
     name: string
     port_total: string
     deleted_at?: string
+    cluster?: Cluster
     container?: Container
     type?: OptionReference
     ports?: Port[]

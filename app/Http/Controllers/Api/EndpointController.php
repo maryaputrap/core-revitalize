@@ -12,23 +12,42 @@ use Veelasky\LaravelHashId\Rules\ExistsByHash;
 
 class EndpointController extends Controller
 {
-    public function index(Container $container, Request $request): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         $request->validate([
+            'cluster' => ['sometimes', 'nullable', 'string'],
+            'container' => ['sometimes', 'nullable', 'string'],
             'except_endpoint_id' => ['sometimes', new ExistsByHash(Endpoint::class)],
         ]);
 
-        $endpoints = $container->endpoints()
-            ->when($request->has('except_endpoint_id'), function ($query) use ($request) {
-                $query->where('id', '!=', Endpoint::hashToId($request->except_endpoint_id));
-            })
-            ->with('ports')
-            ->orderBy('name')
-            ->get([
-                'id',
-                'name',
-            ]);
+        $data = [];
 
-        return response()->json($endpoints);
+        if ($request->has('cluster')) {
+            $cluster = Cluster::byHashOrFail($request->input('cluster'));
+            $data = $cluster->endpoints()
+                ->when($request->has('except_endpoint_id'), function ($query) use ($request) {
+                    $query->where('id', '!=', Endpoint::hashToId($request->except_endpoint_id));
+                })
+                ->with('ports')
+                ->orderBy('name')
+                ->get([
+                    'id',
+                    'name',
+                ]);
+        } elseif ($request->has('container')) {
+            $container = Container::byHashOrFail($request->input('container'));
+            $data = $container->endpoints()
+                ->when($request->has('except_endpoint_id'), function ($query) use ($request) {
+                    $query->where('id', '!=', Endpoint::hashToId($request->except_endpoint_id));
+                })
+                ->with('ports')
+                ->orderBy('name')
+                ->get([
+                    'id',
+                    'name',
+                ]);
+        }
+
+        return response()->json($data);
     }
 }

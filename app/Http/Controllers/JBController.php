@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class FDTController extends Controller
+class JBController extends Controller
 {
-    protected string $viewPrefix = 'FDT';
+    protected string $viewPrefix = 'JB';
 
     public function __construct()
     {
@@ -29,7 +29,7 @@ class FDTController extends Controller
                 'container.cluster',
             ])
             ->whereHas('type', function ($query) {
-                $query->where('code', EndpointType::FAT());
+                $query->where('code', EndpointType::JB());
             })
             ->paginate();
 
@@ -57,12 +57,12 @@ class FDTController extends Controller
             return redirect()->back()->withInput()->withErrors($e->getMessage());
         }
 
-        return redirect()->route('fdt.index');
+        return redirect()->route('jb.index');
     }
 
     public function show(Endpoint $endpoint): Response
     {
-        $endpoint->load('container.cluster', 'ports.toPorts.endpoint');
+        $endpoint->load('cluster', 'container.cluster', 'ports.toPorts.endpoint');
 
         return Inertia::render($this->viewComponent('Show'), [
             'endpoint' => $endpoint
@@ -91,7 +91,7 @@ class FDTController extends Controller
             return redirect()->back()->withInput()->withErrors($e->getMessage());
         }
 
-        return redirect()->route('fdt.index');
+        return redirect()->route('jb.index');
     }
 
     public function destroy(Endpoint $endpoint): RedirectResponse
@@ -107,6 +107,6 @@ class FDTController extends Controller
             return redirect()->back()->withErrors($e->getMessage());
         }
 
-        return redirect()->route('fdt.index');
+        return redirect()->route('jb.index');
     }
 }

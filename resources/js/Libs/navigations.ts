@@ -26,15 +26,23 @@ const endpoint = {
 }
 
 const fdt = {
-    name: 'FDT',
+    name: 'FAT',
     href: route('fdt.index'),
     icon: CpuChipIcon,
     current: route().current('fdt.*'),
+}
+
+const jb = {
+    name: 'Join Box',
+    href: route('jb.index'),
+    icon: CpuChipIcon,
+    current: route().current('jb.*'),
 }
 
 export const navigations = [
     dashboard,
     cluster,
     endpoint,
-    fdt
+    fdt,
+    jb,
 ]

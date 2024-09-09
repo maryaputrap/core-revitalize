@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EndpointController;
 use App\Http\Controllers\FDTController;
+use App\Http\Controllers\JBController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ContainerController;
 use App\Http\Controllers\ClusterController;
@@ -46,7 +47,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('cluster', ClusterController::class);
         Route::resource('container', ContainerController::class);
         Route::resource('endpoint', EndpointController::class);
-        Route::resource('fdt', FdtController::class, ['parameters' => ['fdt' => 'endpoint']]);
+        Route::resource('fdt', FDTController::class, ['parameters' => ['fdt' => 'endpoint']]);
+        Route::resource('jb', JBController::class, ['parameters' => ['jb' => 'endpoint']]);
 
         Route::post('endpoint/{endpoint}/connection/connect', [ConnectionController::class, 'connect'])->name('connection.connect');
         Route::post('endpoint/{endpoint}/connection/{port}', [ConnectionController::class, 'disconnect'])->name('connection.disconnect');

@@ -55,6 +55,11 @@ class Endpoint extends Model
         return $this->belongsTo(EndpointType::class, 'type_id');
     }
 
+    public function cluster(): belongsTo
+    {
+        return $this->belongsTo(Cluster::class);
+    }
+
     public function container(): belongsTo
     {
         return $this->belongsTo(Container::class);

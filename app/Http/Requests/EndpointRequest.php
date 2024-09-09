@@ -30,6 +30,10 @@ class EndpointRequest extends FormRequest
             $this->merge([
                 'type_id' => EndpointType::query()->where('code', EndpointTypeEnums::FAT())->first()->hash,
             ]);
+        } elseif ($this->routeIs('jb.*')) {
+            $this->merge([
+                'type_id' => EndpointType::query()->where('code', EndpointTypeEnums::JB())->first()->hash,
+            ]);
         }
     }
 

@@ -24,6 +24,6 @@ Route::middleware('auth:sanctum')->as('api.')->group(function () {
 
     Route::get('/clusters', [ClusterController::class, 'index'])->name('cluster.index');
     Route::get('/clusters/{cluster}/containers', [ContainerController::class, 'index'])->name('container.index');
-    Route::get('/containers/{container}/endpoints', [EndpointController::class, 'index'])->name('endpoint.index');
+    Route::get('/endpoints', [EndpointController::class, 'index'])->name('endpoint.index');
     Route::get('/options/endpoint-types', [OptionReferenceController::class, 'endpointType'])->name('option.endpoint-type');
 });

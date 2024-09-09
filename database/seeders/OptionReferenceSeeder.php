@@ -30,6 +30,10 @@ class OptionReferenceSeeder extends Seeder
                 'code' => 'fat',
                 'content' => 'FAT',
             ],
+            [
+                'code' => 'jb',
+                'content' => 'JB',
+            ],
         ];
 
         $types = [

@@ -68,7 +68,7 @@ class ConnectionController extends Controller
         $toPort->is_connected = true;
         $toPort->save();
 
-        return redirect()->route('endpoint.show', $endpoint->hash)->with('success', 'Connection created successfully.');
+        return back()->with('success', 'Connection created successfully.');
     }
 
     /**
@@ -84,6 +84,6 @@ class ConnectionController extends Controller
         $port->toPorts()->detach();
         $port->is_connected = false;
 
-        return redirect()->route('endpoint.show', $endpoint->hash)->with('success', 'Connection deleted successfully.');
+        return back()->with('success', 'Connection deleted successfully.');
     }
 }

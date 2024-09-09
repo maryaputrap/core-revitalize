@@ -17,6 +17,11 @@ const model = defineModel({
 })
 
 const props = defineProps({
+    cluster: {
+        type: String as PropType<string>,
+        required: false,
+        default: null
+    },
     container: {
         type: String as PropType<string>,
         required: false,
@@ -38,8 +43,8 @@ const {container, disabled} = toRefs(props)
 const endpoints: Ref<EndpointMapped[]> = ref([])
 const selectedEndpoint = ref<EndpointMapped>(null)
 
-const loadEndpoints = async (container: string|null = props.container) => {
-    if (!container) {
+const loadEndpoints = async (cluster: string|null = props.cluster, container: string|null = props.container) => {
+    if (!(container || cluster)) {
         return
     }
 
@@ -47,6 +52,7 @@ const loadEndpoints = async (container: string|null = props.container) => {
         route(
             'api.endpoint.index',
             {
+                'cluster': cluster,
                 'container': container,
                 'except_endpoint_id': props.exceptId
             }

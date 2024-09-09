@@ -39,4 +39,9 @@ class Cluster extends Model
     {
         return $this->hasMany(Container::class);
     }
+
+    public function endpoints(): HasMany
+    {
+        return $this->hasMany(Endpoint::class);
+    }
 }

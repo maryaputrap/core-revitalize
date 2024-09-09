@@ -11,6 +11,7 @@ use ArchTech\Enums\Values;
 /**
  * @method static ENDPOINT()
  * @method static FAT()
+ * @method static JB()
  */
 enum EndpointType: string
 {
@@ -24,4 +25,5 @@ enum EndpointType: string
     case OLT = 'olt';
     case BEST_TRAY = 'best_tray';
     case FAT = 'fat';
+    case JB = 'jb';
 }

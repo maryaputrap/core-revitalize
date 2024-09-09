@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OptionReference\EndpointType;
 use App\Http\Requests\EndpointRequest;
 use App\Models\Endpoint;
 use App\Services\EndpointService;
@@ -24,8 +25,12 @@ class EndpointController extends Controller
     {
         $endpoints = Endpoint::query()
             ->with([
+                'cluster',
                 'container.cluster',
             ])
+            ->whereDoesntHave('type', function ($query) {
+                $query->whereIn('code', [EndpointType::FAT(), EndpointType::JB()]);
+            })
             ->paginate();
 
         return Inertia::render($this->viewComponent('Index'), [
