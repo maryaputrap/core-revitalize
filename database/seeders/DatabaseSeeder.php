@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             ContainersSeeder::class,
             // HardwaresSeeder::class,
             OptionReferenceSeeder::class,
+            EndpointsSeeder::class,
             // PortsSeeder::class,
             // TubesSeeder::class,
             // UserLevelsSeeder::class,

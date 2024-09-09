@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Container;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -15,22 +16,21 @@ class ContainersSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('containers')->insert([
-            'cluster_id' => 1,
-            'name' => "POP_1BSB10019_Bintan_Gunung Kijang 7247",
-            'latitude' => 1.1864000,
-            'longitude' => 104.5767020,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        if (($open = fopen(database_path("seeders/data/containers.csv"), "r")) !== false) {
+            fgetcsv($open);
 
-        DB::table('containers')->insert([
-            'cluster_id' => 1,
-            'name' => "FDT_BSBF10009",
-            'latitude' => 1.1864010,
-            'longitude' => 104.5766940,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+            while (($row = fgetcsv($open)) !== false) {
+                $newContainer = [
+                    'cluster_id' => "$row[0]",
+                    'name' => "$row[1]",
+                    'latitude' => "$row[2]",
+                    'longitude' => "$row[3]",
+                ];
+
+                Container::query()->insert($newContainer);
+            }
+
+            fclose($open);
+        }
     }
 }
