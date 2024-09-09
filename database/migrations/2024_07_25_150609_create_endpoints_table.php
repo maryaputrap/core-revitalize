@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Cluster;
 use App\Models\Container;
 use App\Models\OptionReference\OptionReference;
 use Illuminate\Database\Migrations\Migration;
@@ -16,10 +17,12 @@ return new class extends Migration
         Schema::create('endpoints', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(OptionReference::class, 'type_id')->nullable()->onDeleteNull();
+            $table->foreignIdFor(Cluster::class)->nullable()->onDeleteNull();
             $table->foreignIdFor(Container::class)->nullable()->onDeleteNull();
-            $table->string('code');
             $table->string('name');
             $table->unsignedMediumInteger('port_total')->default(0);
+            $table->double('latitude', 15, 8)->nullable();
+            $table->double('longitude', 15, 8)->nullable();
             $table->timestamps();
         });
     }

@@ -4,42 +4,37 @@ import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import InputError from '@/Components/InputError.vue';
-import {computed, onMounted, ref, toRefs, watch} from "vue";
+import {computed, onMounted, ref} from "vue";
 import type {Endpoint} from "@/types/models";
 import type {PropType} from "vue";
 import DashboardLayout from "@/Layouts/DashboardLayout.vue";
 import ClusterCombobox from "@/Components/Partials/ClusterCombobox.vue";
-import ContainerCombobox from "@/Components/Partials/ContainerCombobox.vue";
-import EndpointTypeListbox from "@/Components/Partials/EndpointTypeListbox.vue";
 
 const props = defineProps({
     endpoint: {
-        required: route().current('endpoint.edit'),
+        required: route().current('fdt.edit'),
         type: Object as PropType<Endpoint>
     }
 })
 
-const containerCombobox = ref(null)
 const onMountedState = ref(false)
 
 const form = useForm({
     hash: '',
-    type_id: '',
     cluster_id: '',
-    container_id: '',
     name: '',
     port_total: '0',
 });
 
 const handleSubmit = () => {
-    const isEdit = route().current('endpoint.edit')
+    const isEdit = route().current('fdt.edit')
 
     if (isEdit && !props.endpoint && !props.endpoint?.hash) return
 
     const method = isEdit ? 'put' : 'post'
     const routeUrl = isEdit ?
-        route('endpoint.update', props.endpoint.hash) :
-        route('endpoint.store')
+        route('fdt.update', props.endpoint.hash) :
+        route('fdt.store')
 
     form[method](routeUrl, {
         onSuccess: () => {
@@ -48,22 +43,14 @@ const handleSubmit = () => {
     })
 }
 
-const title = computed(() => route().current('endpoint.edit') ? 'Edit Endpoint' : 'Create Endpoint')
+const title = computed(() => route().current('fdt.edit') ? 'Edit Endpoint' : 'Create Endpoint')
 
-watch(() => form.cluster_id, async (newValue, oldValue) => {
-    if ((newValue !== oldValue) && onMountedState.value) {
-        await containerCombobox.value.loadContainers(newValue)
-        form.container_id = null
-    }
-})
+
 
 onMounted(async () => {
-    if (route().current('endpoint.edit')) {
+    if (route().current('fdt.edit')) {
         form.hash = props.endpoint.hash
         form.cluster_id = props.endpoint.container.cluster.hash
-        await containerCombobox.value.loadContainers(form.cluster_id)
-        form.container_id = props.endpoint.container.hash
-        form.type_id = props.endpoint.type.hash
         form.name = props.endpoint.name
         form.port_total = props.endpoint.port_total
     }
@@ -91,22 +78,6 @@ onMounted(async () => {
                                 <InputLabel value="Cluster" />
                                 <ClusterCombobox v-model="form.cluster_id" />
                                 <InputError :message="form.errors.cluster_id" />
-                            </div>
-
-                            <div>
-                                <InputLabel value="Container" />
-                                <ContainerCombobox
-                                    ref="containerCombobox"
-                                    v-model="form.container_id"
-                                    :disabled="!form.cluster_id"
-                                />
-                                <InputError :message="form.errors.container_id" />
-                            </div>
-
-                            <div>
-                                <InputLabel value="Type" />
-                                <EndpointTypeListbox v-model="form.type_id" />
-                                <InputError :message="form.errors.type_id" />
                             </div>
 
                             <div>

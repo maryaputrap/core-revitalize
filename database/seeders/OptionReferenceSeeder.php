@@ -26,6 +26,10 @@ class OptionReferenceSeeder extends Seeder
                 'code' => 'best_tray',
                 'content' => 'BEST TRAY',
             ],
+            [
+                'code' => 'fat',
+                'content' => 'FAT',
+            ],
         ];
 
         $types = [
@@ -34,6 +38,10 @@ class OptionReferenceSeeder extends Seeder
 
         foreach ($types as $type => $options) {
             foreach ($options as $option) {
+                if (OptionReference::query()->where('type', $type)->where('code', $option['code'])->exists()) {
+                    continue;
+                }
+
                 OptionReference::query()->create([
                     'type' => $type,
                     'code' => $option['code'],

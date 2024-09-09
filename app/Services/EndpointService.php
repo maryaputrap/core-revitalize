@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Actions\Endpoint\GeneratePorts;
+use App\Models\Cluster;
 use App\Models\Container;
 use App\Models\Endpoint;
 use App\Models\OptionReference\EndpointType;
@@ -12,16 +13,20 @@ class EndpointService
 {
     /**
      * @param array $inputs
+     * @param string $prefix
+     * @param bool $duplicate
      * @return Endpoint
      */
     public function create(
         array $inputs,
+        string $prefix = 'PORT',
+        bool $duplicate = false,
     ): Endpoint
     {
         $endpoint = new Endpoint();
         $this->saveAttributes($inputs, $endpoint);
 
-        (new GeneratePorts($endpoint))->handle();
+        (new GeneratePorts($endpoint, prefix: $prefix, duplicate: $duplicate))->handle();
 
         return $endpoint->refresh();
     }
@@ -29,18 +34,22 @@ class EndpointService
     /**
      * @param Endpoint $endpoint
      * @param array $inputs
+     * @param string $prefix
+     * @param bool $duplicate
      * @return Endpoint
      */
     public function update(
         Endpoint $endpoint,
         array $inputs,
+        string $prefix = 'PORT',
+        bool $duplicate = false,
     ): Endpoint
     {
         $oldPortTotal = $endpoint->port_total;
         $this->saveAttributes($inputs, $endpoint);
 
         if ($oldPortTotal !== $inputs['port_total']) {
-            (new GeneratePorts($endpoint, regenerate: true))->handle();
+            (new GeneratePorts(endpoint: $endpoint, regenerate: true, prefix: $prefix, duplicate: $duplicate))->handle();
         }
 
         return $endpoint->refresh();
@@ -65,10 +74,13 @@ class EndpointService
     private function saveAttributes(array $inputs, Endpoint $endpoint): void
     {
         $endpoint->type_id = EndpointType::hashToId($inputs['type_id']);
-        $endpoint->container_id = Container::hashToId($inputs['container_id']);
-        $endpoint->code = $inputs['code'];
+        $endpoint->cluster_id = !empty($inputs['cluster_id']) ? Cluster::hashToId($inputs['cluster_id']) : null;
+        $endpoint->container_id = !empty($inputs['container_id']) ? Container::hashToId($inputs['container_id']) : null;
         $endpoint->name = $inputs['name'];
         $endpoint->port_total = $inputs['port_total'];
+        $endpoint->latitude = $inputs['latitude'] ?? null;
+        $endpoint->longitude = $inputs['longitude'] ?? null;
+
         $endpoint->save();
     }
 }

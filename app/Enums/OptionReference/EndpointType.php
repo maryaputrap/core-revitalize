@@ -3,12 +3,14 @@
 namespace App\Enums\OptionReference;
 
 use ArchTech\Enums\From;
+use ArchTech\Enums\InvokableCases;
 use ArchTech\Enums\Names;
 use ArchTech\Enums\Options;
 use ArchTech\Enums\Values;
 
 /**
  * @method static ENDPOINT()
+ * @method static FAT()
  */
 enum EndpointType: string
 {
@@ -16,8 +18,10 @@ enum EndpointType: string
     use Values;
     use Options;
     use From;
+    use InvokableCases;
 
     case ODF = 'odf';
     case OLT = 'olt';
     case BEST_TRAY = 'best_tray';
+    case FAT = 'fat';
 }

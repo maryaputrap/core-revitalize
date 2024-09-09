@@ -11,6 +11,8 @@ class GeneratePorts extends BaseAction
     public function __construct(
         public readonly Endpoint $endpoint,
         public readonly bool $regenerate = false,
+        public readonly string $prefix = 'PORT',
+        public readonly bool $duplicate = false,
     )
     {
         parent::__construct();
@@ -40,11 +42,21 @@ class GeneratePorts extends BaseAction
             $this->endpoint->ports()->delete();
         }
 
-        for ($i = 1; $i <= $this->endpoint->port_total; $i++) {
-            $num = sprintf("%02d", $i); // 01, 02, 03, ..., 10, 11, 12, ...
-            $this->endpoint->ports()->create([
-                'name' => "PORT $num",
-            ]);
+        for ($i = 1; $i <= $this->endpoint->port_total * ($this->duplicate ? 2 : 1); $i++) {
+            $actualIteration = $this->duplicate ? ($i > $this->endpoint->port_total ? $i - $this->endpoint->port_total : $i) : $i;
+            $num = sprintf("%02d", $actualIteration); // 01, 02, 03, ..., 10, 11, 12, ...
+
+            $data = [
+                'name' => "$this->prefix $num",
+            ];
+
+            if ($this->duplicate) {
+                $data['additional_data'] = [
+                    'position' => $i > $this->endpoint->port_total ? 'right' : 'left',
+                ];
+            }
+
+            $this->endpoint->ports()->create($data);
         }
 
         return $this->endpoint;

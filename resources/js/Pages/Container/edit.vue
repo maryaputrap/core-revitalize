@@ -8,7 +8,6 @@ import InputError from '@/Components/InputError.vue';
 
 interface Container {
     id: number;
-    code: string;
     name: string;
     latitude: string;
     longitude: string;
@@ -22,7 +21,6 @@ const props = defineProps<{
 // console.log(props.data.code);
 
 const inputForm = useForm({
-    code: props.data.code,
     name: props.data.name,
     latitude: props.data.latitude,
     longitude: props.data.longitude,
@@ -46,13 +44,6 @@ const handleSubmit = () => {
         <div>
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 <form @submit.prevent="handleSubmit" action="">
-                    <div class="w-1/2">
-                        <div class="mb-2">
-                            <InputLabel value="Code" />
-                            <TextInput v-model="inputForm.code" />
-                            <InputError :message="inputForm.errors.code" />
-                        </div>
-                    </div>
                     <div class="w-1/2">
                         <div class="mb-2">
                             <InputLabel value="Name" />

@@ -25,8 +25,16 @@ const endpoint = {
     current: route().current('endpoint.*'),
 }
 
+const fdt = {
+    name: 'FDT',
+    href: route('fdt.index'),
+    icon: CpuChipIcon,
+    current: route().current('fdt.*'),
+}
+
 export const navigations = [
     dashboard,
     cluster,
-    endpoint
+    endpoint,
+    fdt
 ]

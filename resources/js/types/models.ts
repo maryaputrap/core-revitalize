@@ -69,4 +69,7 @@ export interface Port {
     splitter: string
     endpoint?: Endpoint
     to_ports: Port[]
+    additional_data?: {
+        position: string
+    }
 }

@@ -19,6 +19,9 @@ use Veelasky\LaravelHashId\Eloquent\HashableId;
  * @property mixed $name
  * @property mixed $port_total
  * @property Collection<Port> $ports
+ * @property mixed $latitude
+ * @property mixed $longitude
+ * @property int|mixed|null $cluster_id
  */
 class Endpoint extends Model
 {
@@ -27,10 +30,12 @@ class Endpoint extends Model
 
     protected $fillable = [
         'type_id',
+        'cluster_id',
         'container_id',
-        'code',
         'name',
         'port_total',
+        'latitude',
+        'longitude',
     ];
 
     protected $appends = [

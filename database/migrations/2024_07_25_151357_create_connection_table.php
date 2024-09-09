@@ -19,6 +19,7 @@ return new class extends Migration
             $table->char('tube')->nullable(); // example: A, B, C, D, E,...
             $table->string('tube_color')->nullable(); // example: red, blue, green, yellow,...
             $table->string('cable')->nullable(); // example: MGB 24C/8T/6C
+            $table->jsonb('additional_data')->nullable();
             $table->timestamps();
         });
     }

@@ -24,7 +24,8 @@ class Port extends Model
         'to_port_id',
         'tube',
         'tube_color',
-        'cable'
+        'cable',
+        'additional_data',
     ];
 
     protected $appends = [
@@ -37,6 +38,7 @@ class Port extends Model
 
     protected $casts = [
         'is_connected' => 'boolean',
+        'additional_data' => 'array',
     ];
 
     public function endpoint(): BelongsTo

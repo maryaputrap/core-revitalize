@@ -2,12 +2,13 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EndpointController;
+use App\Http\Controllers\FDTController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ContainerController;
 use App\Http\Controllers\ClusterController;
 use App\Http\Controllers\ConnectionController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,10 +46,15 @@ Route::middleware('auth')->group(function () {
         Route::resource('cluster', ClusterController::class);
         Route::resource('container', ContainerController::class);
         Route::resource('endpoint', EndpointController::class);
+        Route::resource('fdt', FdtController::class, ['parameters' => ['fdt' => 'endpoint']]);
 
         Route::post('endpoint/{endpoint}/connection/connect', [ConnectionController::class, 'connect'])->name('connection.connect');
         Route::post('endpoint/{endpoint}/connection/{port}', [ConnectionController::class, 'disconnect'])->name('connection.disconnect');
     });
+});
+
+Route::post('/webhook', function () {
+    Telegram::commandsHandler(true);
 });
 
 require __DIR__ . '/auth.php';

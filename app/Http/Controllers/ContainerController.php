@@ -40,7 +40,6 @@ class ContainerController extends Controller
     public function store(ContainerRequest $request)
     {
         $container = Container::create([
-            'code' => $request->code,
             'name' => $request->name,
             'latitude' => floatval($request->latitude),
             'longitude' => floatval($request->longitude)
@@ -78,7 +77,6 @@ class ContainerController extends Controller
     {
         $container = Container::findOrFail($id);
         $container->update([
-            'code' => $request->code,
             'name' => $request->name,
             'latitude' => floatval($request->latitude),
             'longitude' => floatval($request->longitude)

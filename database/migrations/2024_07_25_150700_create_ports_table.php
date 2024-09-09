@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->boolean('is_connected')->default(false);
             $table->unsignedSmallInteger('splitter')->default(1);
+            $table->jsonb('additional_data')->nullable();
             $table->timestamps();
         });
     }

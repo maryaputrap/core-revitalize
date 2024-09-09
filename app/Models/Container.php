@@ -15,7 +15,6 @@ class Container extends Model
 
     protected $fillable = [
         'cluster_id',
-        'code',
         'name',
         'latitude',
         'longitude',

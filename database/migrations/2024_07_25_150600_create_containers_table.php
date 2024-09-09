@@ -15,7 +15,6 @@ return new class extends Migration
         Schema::create('containers', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Cluster::class)->onDeleteNull();
-            $table->string('code');
             $table->string('name');
             $table->double('latitude', 15, 8);
             $table->double('longitude', 15, 8);

@@ -8,7 +8,7 @@ use App\Models\Port;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class FdtController extends Controller
+class FdtControllerOld extends Controller
 {
     /**
      * Display a listing of the resource.

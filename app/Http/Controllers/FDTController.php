@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OptionReference\EndpointType;
 use App\Http\Requests\EndpointRequest;
 use App\Models\Endpoint;
 use App\Services\EndpointService;
@@ -11,9 +12,9 @@ use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class EndpointController extends Controller
+class FDTController extends Controller
 {
-    protected string $viewPrefix = 'Endpoint';
+    protected string $viewPrefix = 'FDT';
 
     public function __construct()
     {
@@ -26,6 +27,9 @@ class EndpointController extends Controller
             ->with([
                 'container.cluster',
             ])
+            ->whereHas('type', function ($query) {
+                $query->where('code', EndpointType::FAT());
+            })
             ->paginate();
 
         return Inertia::render($this->viewComponent('Index'), [
@@ -45,14 +49,14 @@ class EndpointController extends Controller
         try {
 
             $sv = new EndpointService();
-            $sv->create($request->validated());
+            $sv->create($request->validated(), prefix: 'CORE', duplicate: true);
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
             return redirect()->back()->withInput()->withErrors($e->getMessage());
         }
 
-        return redirect()->route('endpoint.index');
+        return redirect()->route('fdt.index');
     }
 
     public function show(Endpoint $endpoint): Response
@@ -79,14 +83,14 @@ class EndpointController extends Controller
 
         try {
             $sv = new EndpointService();
-            $sv->update($endpoint, $request->validated());
+            $sv->update($endpoint, $request->validated(), prefix: 'CORE', duplicate: true);
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
             return redirect()->back()->withInput()->withErrors($e->getMessage());
         }
 
-        return redirect()->route('endpoint.index');
+        return redirect()->route('fdt.index');
     }
 
     public function destroy(Endpoint $endpoint): RedirectResponse
@@ -102,6 +106,6 @@ class EndpointController extends Controller
             return redirect()->back()->withErrors($e->getMessage());
         }
 
-        return redirect()->route('endpoint.index');
+        return redirect()->route('fdt.index');
     }
 }

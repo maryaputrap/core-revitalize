@@ -39,7 +39,7 @@ const handleDelete = (hash: string) => {
                         Tambah
                     </button> -->
                     <!-- <PrimaryButton type="button">Tambah</PrimaryButton> -->
-                    <NavLink :href="route('endpoint.create')" :active="true">
+                    <NavLink :href="route('fdt.create')" :active="true">
                         <PrimaryButton type="button">Tambah</PrimaryButton>
                     </NavLink>
                 </div>
@@ -54,9 +54,6 @@ const handleDelete = (hash: string) => {
                                         </th>
                                         <th class=" p-2  whitespace-nowrap font-normal text-gray-900">
                                             Cluster
-                                        </th>
-                                        <th class=" p-2  whitespace-nowrap font-normal text-gray-900">
-                                            Container
                                         </th>
                                         <th class=" p-2  whitespace-nowrap font-normal text-gray-900">
                                             Type
@@ -82,9 +79,6 @@ const handleDelete = (hash: string) => {
                                             {{ endpoint.container?.cluster?.name || '-' }}
                                         </td>
                                         <td class=" p-2 ">
-                                            {{ endpoint.container?.name || '-' }}
-                                        </td>
-                                        <td class=" p-2 ">
                                             {{ endpoint.type?.content || '-' }}
                                         </td>
                                         <td class=" p-2 ">
@@ -95,10 +89,10 @@ const handleDelete = (hash: string) => {
                                         </td>
                                         <td class="relative whitespace-nowrap p-2 text-right text-sm font-medium sm:pr-0">
                                             <div class="flex gap-2 ">
-                                                <NavLink :href="route('endpoint.show', {'endpoint': endpoint.hash})" :active="true">
+                                                <NavLink :href="route('fdt.show', {'endpoint': endpoint.hash})" :active="true">
                                                     <SecondaryButton type="button">Show</SecondaryButton>
                                                 </NavLink>
-                                                <NavLink v-if="endpoint.deleted_at == null" :href="route('endpoint.edit', {'endpoint': endpoint.hash})" :active="true">
+                                                <NavLink v-if="endpoint.deleted_at == null" :href="route('fdt.edit', {'endpoint': endpoint.hash})" :active="true">
                                                     <SecondaryButton type="button">Edit</SecondaryButton>
                                                 </NavLink>
                                                 <DangerButton type="button" v-if="endpoint.deleted_at == null" @click="handleDelete(endpoint.hash)">
