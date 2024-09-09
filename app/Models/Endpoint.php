@@ -22,6 +22,7 @@ use Veelasky\LaravelHashId\Eloquent\HashableId;
  * @property mixed $latitude
  * @property mixed $longitude
  * @property int|mixed|null $cluster_id
+ * @property mixed $id
  */
 class Endpoint extends Model
 {

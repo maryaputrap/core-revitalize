@@ -14,7 +14,7 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 class SendExcelCommand extends Command
 {
     protected string $name = 'user';
-
+    protected string $pattern = '{user}';
     /**
      * The console command description.
      *
@@ -28,8 +28,16 @@ class SendExcelCommand extends Command
      */
     public function handle()
     {
+        Telegram::sendMessage([
+            'chat_id' => $this->getUpdate()->getMessage()->getChat()->getId(),
+            'text' => 'Please wait, I am preparing the file for you',
+        ]);
+
+        $user = $this->argument('user');
+        $user = strtolower(str_replace('_', ' ', $user));
+
         $fileName = 'users.xlsx';
-        Excel::store(new UsersExport, $fileName, 'public');
+        Excel::store(new UsersExport($user), $fileName, 'public');
 
         $filePath = storage_path('app/public/' . $fileName);
 

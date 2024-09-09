@@ -12,6 +12,7 @@ use ArchTech\Enums\Values;
  * @method static ENDPOINT()
  * @method static FAT()
  * @method static JB()
+ * @method static ODF()
  */
 enum EndpointType: string
 {

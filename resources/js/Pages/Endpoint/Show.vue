@@ -87,7 +87,7 @@ onMounted(() => {
             <div class=" mx-auto py-2 px-1 sm:px-2 lg:px-4">
                 <div class="mb-5">
                     <h1 class="text-2xl font-semibold text-gray-900">
-                        Cluster {{ endpoint.container.cluster.name }} - Container {{ endpoint.container.name }}
+                        Cluster {{ endpoint.cluster?.name || '-' }} - Container {{ endpoint.container?.name || '-' }}
                     </h1>
                     <h3 class="text-lg font-semibold text-gray-700 mt-3">
                         Endpoint {{ endpoint.name }}

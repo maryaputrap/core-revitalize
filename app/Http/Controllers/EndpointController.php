@@ -62,7 +62,7 @@ class EndpointController extends Controller
 
     public function show(Endpoint $endpoint): Response
     {
-        $endpoint->load('container.cluster', 'ports.toPorts.endpoint');
+        $endpoint->load('cluster', 'container.cluster', 'ports.toPorts.endpoint');
 
         return Inertia::render($this->viewComponent('Show'), [
             'endpoint' => $endpoint
